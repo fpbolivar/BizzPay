@@ -15,22 +15,21 @@ class CustomListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: Padding(
+    return Padding(
         padding: EdgeInsets.symmetric(vertical: 15.sp, horizontal: 5.sp),
-        child: Row(
-          children: [
-            Expanded(child: SvgPicture.asset(leadingicon!)),
-            Expanded(
-              flex: 5,
-              child: AppText(title!,
-                  style: Styles.circularStdMedium(context, fontSize: 16.sp)),
-            ),
-            Expanded(child: SvgPicture.asset(trailing!)),
-          ],
-        ),
-      ),
-    );
+        child: Row(children: [
+          Expanded(
+              child: SvgPicture.asset(
+            leadingicon!,
+            height: 18.sp,
+            width: 20.sp,
+          )),
+          Expanded(
+            flex: 5,
+            child: AppText(title!,
+                style: Styles.circularStdMedium(context, fontSize: 16.sp)),
+          ),
+          Expanded(child: SvgPicture.asset(trailing!)),
+        ]));
   }
 }

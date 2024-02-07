@@ -1,12 +1,14 @@
 import 'dart:convert';
 
-
+import 'package:buysellbiz/Data/DataSource/Resources/imports.dart';
+import 'package:buysellbiz/Domain/User/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefs {
+  // SharedPrefs._();
+
   /// reference of Shared Preferences
   static SharedPreferences? _preferences;
-  //static UserDetails? userData;
 
   /// Initialization of Shared Preferences
   static Future init() async =>
@@ -16,47 +18,40 @@ class SharedPrefs {
 
   ///UserData stored in json
   ///userRawData will be in map<String,dynamic>
-  static Future setUserLoginData(
-          {required Map<String, dynamic> userRawData}) async =>
+  static Future setUserLoginData({required UserModel userRawData}) async =>
       await _preferences?.setString("user", jsonEncode(userRawData));
 
-
-
-
+  static Future setLoginToken(String token) async =>
+      await _preferences!.setString('token', token);
 
   //
-  //
-  // static UserDetails? getUserLoginData() {
-  //   String? userJson = _preferences!.getString("user") ?? "no_data";
-  //   if (userJson == "no_data") {
-  //     return userData;
-  //   } else {
-  //     userData = UserDetails.fromJson(userJson);
-  //
-  //     return userData;
-  //   }
-  //
-  //   ///response of user
-  //   //{
-  //   //     "success": true,
-  //   //     "error": null,
-  //   //     "user": {
-  //   //         "email": "farooq@gmail.com",
-  //   //         "isSocialLogin": false,
-  //   //         "profile_image": "",
-  //   //         "created_by": null,
-  //   //         "club": null,
-  //   //         "position": null,
-  //   //         "num_of_students": null,
-  //   //         "mobileToken": [],
-  //   //         "_id": "64549437546691cf600be64d"
-  //   //     },
-  //   //     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NTQ5NDM3NTQ2NjkxY2Y2MDBiZTY0ZCIsImlhdCI6MTY4MzI2NDU2NywiZXhwIjoxNjg1ODU2NTY3fQ.6XCI2_aNiZ3hMg0KPT-9yVwXgsUFuvVAnfqX0Sh9TWc"
-  //   // }
-  // }
 
-  static clearPref() {
-    return _preferences?.clear();
+  static String? getUserToken() {
+    String? token;
+    token = _preferences!.getString("token");
+
+    if (token != null) {
+      Data.app.token = token;
+    }
+    return token;
   }
 
+  //
+  static Future<UserModel>? getUserLoginData() {
+    String? userJson;
+    if (_preferences!.containsKey('user')) {
+      userJson = _preferences!.getString("user");
+
+      print(userJson.toString());
+
+      if (userJson != null) {
+        Data.app.user = UserModel.fromRawJson(userJson);
+      }
+    }
+    return Future.value(Data.app.user);
+  }
+
+  static clearUserData() async {
+    await _preferences!.clear();
+  }
 }

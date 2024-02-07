@@ -1,7 +1,16 @@
+import 'package:buysellbiz/Data/AppData/app_preferences.dart';
+import 'package:buysellbiz/Domain/User/user_model.dart';
+
 mixin UserData {
+  static String? userToken;
 
-  final String _user = "test";
+  static UserModel? userData;
 
-  String get user => _user;
+  set token(String? token) => userToken = token;
 
+  set user(UserModel? userModel) => userData = userModel;
+
+  UserModel? get user => userData;
+
+  String? get token => userToken;
 }

@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 class PickFile {
   static Future pickImage() async {
+    // ImagePicker.platform.getImageFromSource(source: ImageSource.camera);
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.image,
       // allowedExtensions: [".jpg",".png",".heic","jpeg"],
@@ -48,24 +49,42 @@ class PickFile {
     return result;
   }
 
-  static Future<List<PlatformFile>?> pickFiles() async {
+  static Future<PlatformFile?> pickFiles() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.any,
-      allowMultiple: true,
-      // allowedExtensions: [
-      //   'jpg',
-      //   'png',
-      //   'jpeg',
-      //   'docx',
-      //   'doc',
-      //   'pdf',
-      //   'csv',
-      //   'xls',
-      //   'xlsx',
-      //   'txt',
-      //   'mp4',
-      // ],
+      type: FileType.custom,
+      allowMultiple: false,
+      allowedExtensions: [
+        'docx',
+        'doc',
+        'pdf',
+        'csv',
+        'xls',
+        'xlsx',
+      ],
     );
+    if (result == null) return null;
+    return result.files.first;
+  }
+
+  static Future<List<PlatformFile>?> pickMultipleFiles(
+      List<String>? allowedExtension, bool? allowMultiple) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowMultiple: allowMultiple ?? false,
+        allowedExtensions: allowedExtension
+        //   'jpg',
+        //   'png',
+        //   'jpeg',
+        //   'docx',
+        //   'doc',
+        //   'pdf',
+        //   'csv',
+        //   'xls',
+        //   'xlsx',
+        //   'txt',
+        //   'mp4',
+        // ],
+        );
     if (result == null) return null;
     return result.files;
   }

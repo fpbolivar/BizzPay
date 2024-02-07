@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 extension CustomSizedBoxExt on num {
   SizedBox get x => SizedBox(width: w);
+
   SizedBox get y => SizedBox(height: h);
 }
 
@@ -63,7 +64,7 @@ extension date on DateTime {
     int minute = this.minute;
     int sec = this.second;
 
-    return "${hour > 12 ? hour - 12 : hour}:$minute ${hour > 12 ? "PM" : "AM"}";
+    return "${hour > 12 ? hour - 12 : hour}:$minute ${hour >= 12 ? "PM" : "AM"}";
   }
 
   String timeAgo({bool numericDates = true}) {
